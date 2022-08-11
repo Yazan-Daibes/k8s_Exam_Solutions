@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: q6-probes
+  namespace: ckad-ns3
+spec:
+  containers:
+  - name: httpd-probes
+    image: httpd
+    readinessProbe:
+      exec:
+        command: ["ls","/"]
+      initialDelaySeconds: 60
+      periodSeconds: 60
+

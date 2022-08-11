@@ -1,0 +1,31 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: sidecar-pod
+  namespace: ckad-ns3
+
+spec:
+  volumes:
+  - name: shared-volume
+    hostPath:        # use anything you want. EmptyDir works as well.
+      path: "/podfiles"
+
+  containers:
+  - name: app
+    image: busybox
+    command: ["/bin/sh"]
+    args: ["-c","while true; do date >> /var/log/date.txt; sleep 5; done"]
+    volumeMounts:
+    - name: shared-volume
+      mountPath: /var/log
+
+  - name: log-collector
+    image: alpine
+
+    imagePullPolicy: IfNotPresent
+
+    command: ["/bin/ls /var/log/date.txt"]
+
+    volumeMounts:
+    - name: shared-volume
+      mountPath: /var/log # since we are writing to /var/log/ the nwe mount to /var/log/

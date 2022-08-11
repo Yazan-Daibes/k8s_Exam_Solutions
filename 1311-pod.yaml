@@ -1,0 +1,16 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: 1311-pod
+  namespace: ckad-1311
+spec:
+  volumes:
+    - name: 1311-pv
+      persistentVolumeClaim:
+        claimName: 1311-pvc
+  containers:
+    - name: nginx-example
+      image: nginx
+      volumeMounts:
+      - mountPath: "/webdata"
+        name: 1311-pv

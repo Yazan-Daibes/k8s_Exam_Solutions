@@ -1,0 +1,28 @@
+# if there is a comment this means that I have added and not generated from the command -o yaml >
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx-exam
+    #app: webshop
+    service: nginx
+  name: nginx-exam
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: nginx-exam
+  strategy: 
+    rollingUpdate: # for creating deployment such that the existing Pods are terminated before new Pods are created to replace them
+  template:
+    metadata: # pod metadata
+      labels:
+        app: nginx-exam
+        #service: nginx # pods label
+        app: webshop
+    spec:
+      containers:
+      - image: nginx:1.8
+        name: nginx
+        resources: {}
+status: {}
